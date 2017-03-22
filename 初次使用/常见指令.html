@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	 <body>
+        <!--这是我们的View-->
+        <div id="app">
+        	<!--是判断是否为true若是则执行，若不是则不会执行，后台也不会显示-->
+			<!--<p v-if="yes">yes</p>
+			<p v-if="no">no</p>
+			<p v-if="age>=32">{{age}}</p>
+			<p v-if="a>=b">{{a+b}}</p>
+			<p v-if="name.indexOf('zhangsan')>=0">{{name}}</p>
+       	<hr />
+       	<p>分割线</p>
+       	<hr />
+       		-->
+       		<!--show是操控css属性中的display-->
+			<!--<p v-show="yes">yes</p>
+			<p v-show="no">no</p>
+			<p v-show="age>=32">{{age}}</p>
+			<p v-show="a>=b">{{a+b}}</p>
+			<p v-show="name.indexOf('zhangsan')>=0">{{name}}</p>-->
+			<!--else元素必须紧跟在 v-if 元素或者 v-else-if的后面——否则它不能被识别-->
+			<p v-if="yes">yes</p>
+			<p v-else>no</p>
+			<p v-if="age>=32">{{age}}</p>
+			<p v-else>{{sex}}</p>
+			<!--show和else不能配合使用，否则会报错-->
+			<p><hr /></p>
+			<!--v-else-if和v-else用法相同-->
+			<p v-if="type=='a'">{{age}}</p>
+			<p v-else-if="type=='b'">{{b}}</p>
+			<p v-else-if="type=='c'">{{c}}</p>
+			<p v-else>{{sex}}</p>
+			<!--这个指令的简单含义是说：将这个元素节点的 title 属性和 Vue 实例的 message 属性绑定到一起-->
+			<p v-bind:title="message">
+				我是vue的bind属性
+			</p>
+			 <p>{{ message2 }}</p>
+  <button v-on:click="reverseMessage">Reverse Message</button>
+        </div>
+  </body>
+</html>
+<script type="text/javascript" src="js/vue.js"></script>
+<script type="text/javascript">
+	//这里只能创建一个实例化函数
+	 var num = new Vue({
+	 	el:"#app",//也可以是class
+	 	data:{
+	 		type:"a",
+			yes:true,
+			no:false,
+			age:11,
+			a:12,
+			b:3,
+			c:"dafa",
+			name:"zhangsan",
+			sex:"man",
+			message:"ok"+new Date(),
+			message2:"Hello Vue.js!"
+		}, 
+		methods: {
+		    reverseMessage: function () {
+		      this.message2 = this.message2.split('').reverse().join('')
+		    }
+		}
+	 })
+</script>
+

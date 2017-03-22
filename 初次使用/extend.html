@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div id="main">
+			<div>{{test}}</div>
+		</div>
+		<div id="app">
+			<div>{{dat.a}}</div>
+		</div>
+	</body>
+</html>
+<script type="text/javascript">
+	var MyComponent = Vue.extend({
+		el:"#main",
+		data:function(){
+			return {test:"this is extend"}
+		}
+	})
+	var NewComponent = new MyComponent();
+	var data = {a:1234};
+	var app = new Vue({
+		el:"#app",
+		data:{
+			dat:data
+		}
+	})
+	console.log(app.dat);
+	app.dat.a = 345;
+	console.log(data.a)
+	console.log(app.dat)
+</script>

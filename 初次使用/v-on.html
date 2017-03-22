@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			* {
+				margin: 0;
+				padding: 0;
+				box-sizing: border-box
+			}
+			#app {
+				margin: 0 auto;
+				max-width: 1000px;
+				text-align: center;
+			}
+			
+		</style>
+	</head>
+
+	<body>
+		<div id="app">
+			<p><input type="text" v-model="msg"/></p>
+			<p><input type="button" v-on:click="Green" value="Green"/></p>
+			<p><input type="button" v-on:click="ok('ok')" value="ok"/></p>
+		</div>
+	</body>
+	<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+	<script type="text/javascript" src="js/vue.js"></script>
+	<script>
+		var vm = new Vue({
+			el: '#app',
+			data: {
+				activeNumber: 1,
+				pageCount: 20
+			},
+			methods:{
+				Green:function(){
+					alert(vm.msg);
+				},
+				ok:function(msg){
+					alert(msg);
+				}
+			}
+			
+		})
+	</script>
+
+</html>

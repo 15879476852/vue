@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div id="main">
+			<input type="text" name="" id="" value=""  v-model="num1"/>{{num1}}
+			<input type="text" name="" id="" value=""  v-model="num2"/>{{num2}}
+			<br />
+			{{num3}}
+		</div>
+	</body>
+</html>
+<script type="text/javascript">
+	var app = new Vue({
+		el:"#main",
+		data:{
+			num1:"1234",
+			num2:"4567",
+			num3:""
+		},
+//		watch:{
+//			num1:function(value){
+//				console.log(value+","+this.num2);
+//			},
+//			num2:function(value){
+//				console.log(this.num1+","+value);
+//			}
+//		},
+		computed:{
+			num3:function(){
+			 console.log(this.num1 +","+ this.num2);
+			}
+		}
+	})
+</script>

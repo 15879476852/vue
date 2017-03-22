@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div id="main">
+			<div>
+				<input type="text" v-model="fullName"/>
+			</div>
+			{{fullName}}
+	        <br/>
+	        {{newName}}
+		</div>
+	</body>
+</html>
+<script type="text/javascript">
+	var app = new Vue({
+		el:"#main",
+		data:{
+			fullName:"made in china"
+		},
+		computed:{
+			newName:{
+				get:function(){
+					return this.fullName + "!";
+				},
+				set:function(newVal){
+					this.fullName = newVal;
+				}
+			}
+		}
+	})
+</script>

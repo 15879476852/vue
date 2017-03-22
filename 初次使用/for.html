@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	 <body>
+        <!--这是我们的View-->
+        <div id="app">
+        	<ul>
+        		<!--	
+	        		****v-for="item in items"
+	        		****items是一个数组，item是当前被遍历的数组元素。
+        		-->
+        		<li v-for="person in people">
+        			<p>name: {{person.name}}</p>
+        			<p>age: {{person.age}}</p>
+        			<p>sex: {{person.sex}}</p>
+        			<p><hr />分割线</p>
+        		</li>
+        	</ul>
+        </div>
+  </body>
+</html>
+<script type="text/javascript" src="js/vue.js"></script>
+<script type="text/javascript">
+	 var app = new Vue({
+	 	el:"#app",//也可以是class
+	 	data:{
+ 			people: [{
+                name: 'Jack',
+                age: 30,
+                sex: 'Male'
+            }, {
+                name: 'Bill',
+                age: 26,
+                sex: 'Male'
+            }, {
+                name: 'Tracy',
+                age: 22,
+                sex: 'Female'
+            }, {
+                name: 'Chris',
+                age: 36,
+                sex: 'Male'
+            }]
+		}
+	 })
+</script>
+
