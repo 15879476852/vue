@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/ajax.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div id="main">
+			<input type="text"v-model="test"/>
+			<heade :test="test">
+				<foot :test="test"></foot>
+			</heade>
+			<foot>
+				<heade></heade>
+			</foot>
+			<heade :test="test">
+				<foot :test="test"></foot>
+			</heade>
+			<foot>
+				<heade></heade>
+			</foot>
+			<heade :test="test">
+				<foot :test="test"></foot>
+			</heade>
+			<foot>
+				<heade></heade>
+			</foot>
+		</div>
+	</body>
+</html>
+<script type="text/javascript">
+	var data = {cont:0}
+	var header={
+		template:"<div><p>this is header{{test}}<button @click='cont+=1'>header:{{cont}}</button></p><slot>this is slot</slot></div>",//slot是用来接受自定义组件里新写的东西，当组件里没有内容时就原样输出slot里的内容
+		props:["test"],
+		data:function(){
+			return data//数据会共享，导致点击一个相应的全部都会改变
+		}
+	}
+	var footer={
+		props:["test"],
+		template:"<div><p>this is footer{{test}}<button @click='cont+=1'>footer:{{cont}}</button></p><slot>this is slot</slot></div>",
+		data:function(){
+			return {
+				cont:0//各自返回不同的值，点击一个只会改变对应的值
+			}
+		}
+	}
+	var app = new Vue({
+		el:"#main",
+		data:{
+			test:""
+		},
+		components:{
+			"heade":header,
+			"foot":footer
+		}
+	})
+	
+</script>

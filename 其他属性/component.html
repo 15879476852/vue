@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/ajax.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div id="main">
+			<input type="text" v-model="test"  @keyup.enter="push"/>
+			<ul>
+				<li is="is-ok" v-for="(item,index) in items" :title="item" :index="index"></li>
+			</ul>
+		</div>
+	</body>
+</html>
+<script type="text/javascript">
+	Vue.component("is-ok",{
+		template:'<li><span v-if="isEditShow">{{ title}}</span><input v-bind:index="index" v-model="editCon" v-else @keyup.enter="save"/><button v-bind:index="index" v-on:click="remove">X</button><button @click="edit">编辑</button></li>',
+		props:["title","index"],
+		data:function(){
+			return {
+				isEditShow:true,
+				editCon:""
+			}
+		},
+		methods:{
+			save:function(e){
+				var index = parseInt(e.target.getAttribute("index"));
+				app.items.splice(index,1,this.editCon);
+				this.editCon="";
+				this.isEditShow = true;
+			},
+			edit:function(e){
+				this.isEditShow = false;
+			},
+			remove:function(e){
+				var index = parseInt(e.target.getAttribute("index"));
+				app.items.splice(index,1);
+			}
+		}
+	})
+	var app = new Vue({
+		el:"#main",
+		data:{
+			items:["zhansan1","zhansan2","zhansan3","zhansan4","zhansan5"],
+			test:""
+		},
+		methods:{
+			push:function(){
+				this.items.push(this.test);
+				this.test="";
+			}
+		}
+	})
+</script>

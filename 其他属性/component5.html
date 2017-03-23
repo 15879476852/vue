@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/ajax.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div id="main">
+			<mainn @add="newadd"></mainn>
+			<span>{{num3}}</span>
+		</div>
+		
+	</body>
+</html>
+<script type="text/javascript">
+	var main = {
+		template:'<div><input type="text" v-model.trim="num1"/><input type="text" v-model.trim="num2"/><button @click="add(num1,num2)">add</button></div>',
+		data:function(){
+			return {
+				num1:0,
+				num2:0
+			}
+		},
+		methods:{
+			add:function(num1,num2){
+//				app.num3 = num1*num2
+//				console.log(app.num3)
+				this.$emit("add",num1,num2);//emit是触发事件，第一个参数是要触发的事件，第二个已及后面的参数都是要传过去的值
+			}
+		}
+	}
+	var app = new Vue({
+		el:"#main",
+		data:{
+			num3:"0"
+		},
+		components:{
+			"mainn":main
+		},
+		methods:{
+			newadd:function(num1,num2){
+				app.num3 = num1*num2
+			}
+		}
+	})
+	
+</script>

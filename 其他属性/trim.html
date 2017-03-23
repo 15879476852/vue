@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/ajax.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div id="main">
+			<select v-model="selected">
+				<option v-for="item in items" :value="item">{{item.name}}</option>
+			</select>
+			<p>name:{{selected.name}}age:{{selected.age}}</p>
+			<input type="text" v-model.trim="test" />
+			<span>{{test}}</span>
+		</div>
+	</body>
+</html>
+<script type="text/javascript">
+	var app = new Vue({
+		el:"#main",
+		data:{
+			selected:{
+				name:"zhansheng1",
+				age:121
+			},
+			test:"",
+			items:[{
+				name:"zhansheng1",
+				age:121
+			},{
+				name:"zhansheng2",
+				age:122
+			},{
+				name:"zhansheng3",
+				age:123
+			},{
+				name:"zhansheng4",
+				age:124
+			},{
+				name:"zhansheng5",
+				age:125
+			},{
+				name:"zhansheng6",
+				age:126
+			}]
+		}
+	})
+</script>
