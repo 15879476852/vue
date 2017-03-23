@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/vue-router.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/ajax.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+			*{
+				margin: 0;
+				padding:0;
+			}
+			html,body{
+				width: 100%;
+				height: 100%;
+			}
+			ul{
+				list-style: none;
+			}
+			a{
+				color: #555;
+				text-decoration: none;
+				display: block;
+			}
+			#main{
+				width: 100%;
+				height:100%;
+				display: flex;
+			}
+			#main-left{
+				width:200px;
+				height:100%;
+				background:aqua;
+			}
+			#main-left ul li a{
+				margin-top:;
+				font:22px/42px "";
+				color: #fff;
+				display: block;
+				text-align: center;
+			}
+			#main-right{
+				flex: 1;
+				background:#f70;
+			}
+			#main-right>div{
+				width:100%;
+				height:100%;
+			}
+			#main-left .home{
+				width: 100%;
+				height:100%;
+			}
+			#main-right .home .nav{
+				width: 100%;
+				display: flex;
+				justify-content: space-around;
+			}
+			
+			#main-right .home .nav li{
+				flex: 1;
+				height:50px;
+				background:#000;
+			}
+			#main-right .home .nav li a{
+				text-align: center;
+				line-height:50px;
+				color:#fff;
+			}
+			#main-right .home .goodslist{
+				background:#ff9;
+				width: 100%;
+				height:620px;
+				display: flex;
+				justify-content: space-around;
+				flex-wrap: wrap;
+				overflow: auto;
+			}
+			#main-right .home .list{
+				width:100%;
+				height:620px;
+				color:#fff;
+				background:#555555;
+			}
+			#main-right .home .goodslist li{
+				width:200px;
+				overflow: hidden;
+				margin:20px 20px;
+			}
+			#main-right .home .goodslist li p{
+				width: 100%;
+				text-overflow:ellipsis;
+				overflow: hidden;
+				white-space:nowrap;
+			}
+			#main-right .home .goodslist li img{
+				width:200px;
+				height: 200px;
+				display: block;
+			}
+			.fade-enter-active, .fade-leave-active {
+			  transition: all .5s
+			}
+			.fade-enter{
+				transform: translateX(25%) translateY(-100%) scale(0);
+			}
+			.fade-leave-to{
+			  transform:translateX(25%) translateY(100%) scale(0);
+			}
+			.slide-enter-active,.slide-leave-active{
+				transition:all 1s;
+			}
+			.slide-enter{
+				transform:translateX(100%) translateY(-25%) scale(0);
+			}
+			.slide-leave-to{
+				transform:translateX(-100%) translateY(-25%) scale(0);
+			}
+		</style>
+	</head>
+	<body>
+		<div id="main">
+			<homepage id="main-left"></homepage>
+			<transition name="fade">
+				<sctionview id="main-right"></sctionview>
+			</transition>
+		</div>
+
+	</body>
+</html>
+<script type="text/javascript">
+	var homepage = {
+		template:'<div><ul><li><router-link to="/home">home</router-link></li><li><router-link to="/about">about</router-link></li><li><router-link to="/more">more</router-link></li></ul></div>'
+	}
+	var sctionview = {
+		template:'<section><router-view></router-view></section>'
+	}
+	var home = {
+		template:'<div class="home"><ul class="nav"><li><router-link to="/home/list">list</router-link></li><li><router-link to="/home/img/:img1">img</router-link></li><li><router-link to="/home/img/:img2">img2</router-link></li><li><router-link to="/home/img/:img3">img3</router-link></li><li><router-link to="/home/img/:img4">img4</router-link></li><li><router-link to="/home/img/:img5">img5</router-link></li><li><router-link to="/home/img/:img6">img6</router-link></li></ul><transition name="slide"><router-view></router-view></transition></div>'
+		//'/img/:img6'的形式是动态获取
+	}
+	var about = {
+		template:'<div class="about">this is about </div>'
+	}
+	var more = {
+		template:'<div class="more">this is more </div>'
+	}
+	var list = {
+		template:'<ul class="list"><li>01</li><li>02</li><li>03</li></ul>'
+	}
+	var sectionimg = {
+//		props:["items"],
+		template:'<ul class="goodslist"><li v-for="item in items"><img :src="item.goodsListImg"/><p>{{item.goodsName}}</p><p><span>{{(item.discount==0? item.price:item.price*item.discount/10)|RMB}}</span><span>{{item.price|RMB}}</span></p></li></ul>',
+		watch:{
+		    '$route':function(to, from) {
+		    	this.userId = this.$route.params.id;
+				switch (this.userId){
+					case ":img1":
+						this.ajax(0);
+						break;
+					case ":img2":
+						this.ajax(1);
+						break;
+					case ":img3":
+						this.ajax(2);
+						break;
+					case ":img4":
+						this.ajax(3);
+						break;
+					case ":img5":
+						this.ajax(4);
+						break;
+					case ":img6":
+						this.ajax(5);
+						break;
+					
+					default:
+						break;
+				}
+		    }
+		},
+		data:function(){
+			return {
+				items:'',
+				res:""
+			}
+		},
+		methods:{
+			ajax:function(res){
+				var that = this;
+				ajax({
+					url:"http://datainfo.duapp.com/shopdata/getGoods.php",
+					data:"classID="+res+"&linenumber=20",
+					success:function(res){
+						eval(res)
+						function callback(info){
+							that.items=info;
+						}
+					}
+				})
+			}
+		},
+		created:function(){
+			var that = this;
+			ajax({
+				url:"http://datainfo.duapp.com/shopdata/getGoods.php",
+				success:function(res){
+					eval(res)
+					function callback(info){
+						that.items=info;
+					}
+				}
+			})
+		},
+		filters:{
+			RMB:function(info){
+				if(info=='') return '';
+				return "¥"+info;
+			}
+		}
+	}
+	var routes =[{
+		path:"/home",
+		component:home,
+		children:[{
+			path:"/home/list",
+			component:list
+		},
+		{
+			path:"/home/img/:id",//动态获取img的哈希值，再动态获取不同的数据
+			component:sectionimg
+		}]
+	},{
+		path:"/about",
+		component:about
+	},{
+		path:"/more",
+		component:more
+	}]
+	var router = new VueRouter({
+//		mode:"history",
+		routes
+	})
+	var app = new Vue({
+		el:"#main",
+		router,
+		components:{
+			"homepage":homepage,
+			"sctionview":sctionview,
+			"more":more,
+			"about":about,
+			"home":home,
+			"list":list,
+			"sectionimg":sectionimg
+		}
+	})
+</script>

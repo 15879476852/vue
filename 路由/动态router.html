@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/vue-router.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/ajax.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div id="main">
+			<homepage></homepage>
+			<sctionview></sctionview>
+		</div>
+
+	</body>
+</html>
+<script type="text/javascript">
+	var homepage = {
+		template:'<div><ul><li><router-link to="/home">home</router-link></li><li><router-link to="/about">about</router-link></li><li><router-link to="/more">more</router-link></li></ul></div>'
+	}
+	var sctionview = {
+		template:'<section>this is section <router-view></router-view></section>'
+	}
+	var home = {
+		template:'<div class="home">this is home<ul><li><router-link to="/home/list">list</router-link></li><li><router-link to="/home/img/:img1">img</router-link></li><li><router-link to="/home/img/:img2">img2</router-link></li><li><router-link to="/home/img/:img3">img3</router-link></li><li><router-link to="/home/img/:img4">img4</router-link></li><li><router-link to="/home/img/:img5">img5</router-link></li><li><router-link to="/home/img/:img6">img6</router-link></li></ul><router-view></router-view></div>'
+		//'/img/:img6'的形式是动态获取
+	}
+	var about = {
+		template:'<div class="about">this is about </div>'
+	}
+	var more = {
+		template:'<div class="more">this is more </div>'
+	}
+	var list = {
+		template:'<ul><li>01</li><li>02</li><li>03</li></ul>'
+	}
+	var sectionimg = {
+		props:["items"],
+		template:'<ul><li v-for="item in items"><img :src="item.goodsListImg"/><p>{{item.goodsName}}</p><p>{{(item.discount==0? item.price:item.price*item.discount/10)|RMB}}</p><p>{{item.price|RMB}}</p></li></ul>',
+		watch:{
+		    '$route':function(to, from) {
+		    	this.userId = this.$route.params.id;
+				switch (this.userId){
+					case ":img1":
+						this.ajax(0);
+						break;
+					case ":img2":
+						this.ajax(1);
+						break;
+					case ":img3":
+						this.ajax(2);
+						break;
+					case ":img4":
+						this.ajax(3);
+						break;
+					case ":img5":
+						this.ajax(4);
+						break;
+					case ":img6":
+						this.ajax(5);
+						break;
+					
+					default:
+						break;
+				}
+		    }
+		},
+		data:function(){
+			return {
+				items:'',
+				res:""
+			}
+		},
+		methods:{
+			ajax:function(res){
+				var that = this;
+				ajax({
+					url:"http://datainfo.duapp.com/shopdata/getGoods.php",
+					data:"classID="+res+"&linenumber=20",
+					success:function(res){
+						eval(res)
+						function callback(info){
+							that.items=info;
+						}
+					}
+				})
+			}
+		},
+		created:function(){
+			var that = this;
+			ajax({
+				url:"http://datainfo.duapp.com/shopdata/getGoods.php",
+				success:function(res){
+					eval(res)
+					function callback(info){
+						that.items=info;
+					}
+				}
+			})
+		},
+		filters:{
+			RMB:function(info){
+				if(info=='') return '';
+				return "¥"+info;
+			}
+		}
+	}
+	var routes =[{
+		path:"/home",
+		component:home,
+		children:[{
+			path:"/home/list",
+			component:list
+		},
+		{
+			path:"/home/img/:id",//动态获取img的哈希值，再动态获取不同的数据
+			component:sectionimg
+		}]
+	},{
+		path:"/about",
+		component:about
+	},{
+		path:"/more",
+		component:more
+	}]
+	var router = new VueRouter({
+//		mode:"history",//这个属性让URL地址栏更像一个网站地址，由http://127.0.0.1:8020/vue/%E8%B7%AF%E7%94%B1/%E5%8A%A8%E6%80%81router.html#/变成了http://127.0.0.1:8020/home/img/:img1
+		routes
+	})
+	var app = new Vue({
+		el:"#main",
+		router,
+		components:{
+			"homepage":homepage,
+			"sctionview":sctionview,
+			"more":more,
+			"about":about,
+			"home":home,
+			"list":list,
+			"sectionimg":sectionimg
+		}
+	})
+</script>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/vue-router.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/ajax.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div id="main">
+			<homepage></homepage>
+			<sctionview></sctionview>
+		</div>
+
+	</body>
+</html>
+<script type="text/javascript">
+	var homepage = {
+		template:'<div><ul><li><router-link to="/home">home</router-link></li><li><router-link to="/about">about</router-link></li><li><router-link to="/more">more</router-link></li></ul></div>'
+	}
+	var sctionview = {
+		template:'<section>this is section <router-view></router-view></section>'
+	}
+	var home = {
+		template:'<div class="home">this is home<ul><li><router-link to="/home/list">list</router-link></li><li><router-link to="/home/img">img</router-link></li></ul><router-view></router-view></div>'
+	}
+	var about = {
+		template:'<div class="about">this is about </div>'
+	}
+	var more = {
+		template:'<div class="more">this is more </div>'
+	}
+	var list = {
+		template:'<ul><li>01</li><li>02</li><li>03</li></ul>'
+	}
+	var sectionimg = {
+		props:["item"],
+		template:'<ul><li v-for="item in items"><img :src="item.goodsListImg"/><p>{{item.goodsName}}</p><p>{{(item.discount==0? item.price:item.price*item.discount/10)|RMB}}</p><p>{{item.price|RMB}}</p></li></ul>',
+		data:function(){
+			return {
+				items:''
+			}
+		},
+		created:function(){
+			var that = this;
+			ajax({
+				url:"http://datainfo.duapp.com/shopdata/getGoods.php",
+				success:function(res){
+					eval(res)
+					function callback(info){
+						that.items=info;
+					}
+				}
+			})
+		},
+		filters:{
+			RMB:function(info){
+				if(info=='') return '';
+				return "¥"+info;
+			}
+		}
+	}
+	var routes =[{
+		path:"/home",
+		component:home,
+		children:[{
+			path:"/home/list",
+			component:list
+		},{
+			path:"/home/img",
+			component:sectionimg
+		}]
+	},{
+		path:"/about",
+		component:about
+	},{
+		path:"/more",
+		component:more
+	}]
+	var router = new VueRouter({
+		routes
+	})
+	var app = new Vue({
+		el:"#main",
+		router,
+		components:{
+			"homepage":homepage,
+			"sctionview":sctionview,
+			"more":more,
+			"about":about,
+			"home":home,
+			"list":list,
+			"sectionimg":sectionimg
+		}
+	})
+</script>
