@@ -6,13 +6,18 @@
 		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
 		<script src="js/vue-router.js" type="text/javascript" charset="utf-8"></script>
 		<script src="js/ajax.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css" media="screen">
+			-webkit-transition: all .5s;
+			-o-transition: all .5s;
+			transition: all .5s;
+			
+		</style>
 	</head>
 	<body>
 		<div id="main">
 			<homepage></homepage>
 			<sctionview></sctionview>
 		</div>
-
 	</body>
 </html>
 <script type="text/javascript">
@@ -25,6 +30,7 @@
 	var home = {
 		template:'<div class="home">this is home<ul><li><router-link to="/home/list">list</router-link></li><li><router-link to="/home/img">img</router-link></li></ul><router-view></router-view></div>'
 	}
+
 	var about = {
 		template:'<div class="about">this is about </div>'
 	}
@@ -94,4 +100,6 @@
 			"sectionimg":sectionimg
 		}
 	})
+	
+
 </script>
